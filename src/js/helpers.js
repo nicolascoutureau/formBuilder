@@ -311,30 +311,45 @@ export default class Helpers {
     return `${baseString}-${newFieldNumber}`
   }
 
-  /**
-   * Set the values for field attributes in the editor
-   * @param {Object} field
-   * @return {Object} fieldData
-   */
-  getAttrVals(field) {
-    const fieldData = Object.create(null)
-    const attrs = field.querySelectorAll('[class*="fld-"]')
-    forEach(attrs, index => {
-      const attr = attrs[index]
-      const name = camelCase(attr.getAttribute('name'))
-      const value = [
-        [
-          attr.attributes.contenteditable,
-          () => (config.opts.dataType === 'xml' ? escapeHtml(attr.innerHTML) : attr.innerHTML),
-        ],
-        [attr.type === 'checkbox', () => attr.checked],
-        [attr.attributes.multiple, () => $(attr).val()],
-        [true, () => attr.value],
-      ].find(([condition]) => !!condition)[1]()
-      fieldData[name] = value
-    })
-    return fieldData
-  }
+    /**
+     * Set the values for field attributes in the editor
+     * @param {Object} field
+     * @return {Object} fieldData
+     */
+    getAttrVals(field) {
+        const fieldData = Object.create(null)
+        const attrs = field.querySelectorAll('[class*="fld-"]')
+        forEach(attrs, index => {
+            const attr = attrs[index]
+            const name = camelCase(attr.getAttribute('name'))
+            const value = [
+                [
+                    attr.attributes.contenteditable,
+                    () => (config.opts.dataType === 'xml' ? escapeHtml(attr.innerHTML) : attr.innerHTML),
+                ],
+                [attr.type === 'checkbox', () => attr.checked],
+                [attr.attributes.multiple, () => $(attr).val()],
+                [true, () => attr.value],
+            ].find(([condition]) => !!condition)[1]()
+            fieldData[name] = value
+            fieldData['uuid'] = this.uuidv4()
+        })
+
+        console.log(fieldData);
+        return fieldData
+    }
+
+    /**
+     *
+     * @return {string}
+     */
+    uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            const r = Math.random() * 16 | 0
+            const v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
 
   /**
    * Collect field attribute values and call fieldPreview to generate preview
