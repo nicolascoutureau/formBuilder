@@ -334,9 +334,9 @@ const FormBuilder = function(opts, element) {
       text: defaultAttrs.concat(['subtype', 'maxlength']),
       date: defaultAttrs,
       file: defaultAttrs.concat(['subtype', 'multiple']),
-      header: ['label', 'subtype', 'className', 'access'],
-      hidden: ['name', 'value', 'access'],
-      paragraph: ['label', 'subtype', 'className', 'access'],
+      header: ['label', 'subtype', 'className', 'access', 'name'],
+      hidden: ['name', 'value', 'access', 'name'],
+      paragraph: ['label', 'subtype', 'className', 'access','name'],
       number: defaultAttrs.concat(['min', 'max', 'step']),
       select: defaultAttrs.concat(['multiple', 'options']),
       textarea: defaultAttrs.concat(['subtype', 'maxlength', 'rows']),
@@ -564,7 +564,7 @@ const FormBuilder = function(opts, element) {
       title: attrs.description || attrs.label || name.toUpperCase(),
       name: name,
       type: attrs.type || 'text',
-      className: [`fld-${name}`, (classname || className || '').trim()],
+      className: [`fld-${name}`, (classname || className || '').trim()]
     }
     const label = `<label for="${textAttrs.id}">${i18n[name] || ''}</label>`
 
